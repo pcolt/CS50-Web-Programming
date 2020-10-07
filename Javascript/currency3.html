@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Currency Exchange</title>
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+
+				document.querySelector('#submit').onclick = function() {
+					fetch('https://api.exchangeratesapi.io/latest?base=USD')
+					// it creates a promise that we access with
+					.then(response => {
+					// and we return what we will get in json format
+						return response.json()
+					})
+					// retrive exchange rate
+					.then(data => {
+						let currency = document.querySelector('select').value;	
+						const rate = data.rates[currency];
+						if (rate !== undefined) {
+							// display rate in html
+							document.querySelector('#rate').innerHTML = rate.toFixed(3).toString();
+							document.querySelector('#currency').innerHTML = currency; 
+						} else {
+							document.querySelector('#rate').innerHTML = 'Currency not found.';
+							document.querySelector('#currency').innerHTML = '';	
+						}
+						})
+					.catch(error => {
+						document.querySelector('p').innerHTML = 'Something went wrong';
+					});
+				};
+
+			});
+		</script>
+	</head>
+	<body>
+		<select>
+			<option value="EUR">Euro</option>
+			<option value="GBP">GBP</option>
+			<option value="foo">foo</option>	
+		</select>
+		<button id='submit'>Submit</button>
+		<p>Exchange rate is 1 USD = <span id='rate'>...</span> <span id='currency'></span>.</p>
+
+	</body>
+</html>

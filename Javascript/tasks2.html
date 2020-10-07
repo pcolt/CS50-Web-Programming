@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tasks</title>
+		<script>
+			console.log("hi");
+			document.addEventListener('DOMContentLoaded', function() {
+				console.log("hello");
+
+				// by default, submit button is disabled
+				document.querySelector('#submit').disabled = true;
+
+				// activate the button when typing
+				document.querySelector('#task').onkeyup = () => {
+					document.querySelector('#submit').disabled = false;
+				}
+				
+				// when the form is submitted
+				document.querySelector('form').onsubmit = () => {
+					// save the submission inside variable task
+					const task = document.querySelector('#task').value;
+					// console.log for debugging proposes
+					console.log(task);
+					// create a <li> element 	
+					const li = document.createElement('li')
+					// with submission inside
+					li.innerHTML = task;
+					// append new submission to list of submissions
+					document.querySelector('#tasks').append(li);
+
+					// cancel text in input field and disable button after submission
+					document.querySelector('#task').value = '';
+					document.querySelector('#submit').disabled = true;
+
+					// stop form from submitting, everything is at user side
+					return false;	
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Tasks</h1>
+		<ul id="tasks">
+		</ul>
+		<form>
+			<input id="task" placeholder="New Tasks" type="text">
+			<input id="submit" type="submit">
+		</form>
+	</body>
+</html>
+
